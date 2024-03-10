@@ -8,7 +8,7 @@ defmodule FizzBuzzElixir do
   defp handleFile({:ok, data}) do
     result =
       data
-      |> String.split(" ")
+      |> String.split(",")
       |> Enum.map(&evalueteNumber/1)
 
     {:ok, result}
