@@ -1,17 +1,42 @@
 defmodule FizzBuzzElixir do
-  def build file_name do
+  def build(file_name) do
     file_name
     |> File.read()
-    |>handleFile()
+    |> handleFile()
   end
 
-  def handleFile({:ok, result}) do
-    result
-    |> String.split(" ")
-    |> Enum.map(&String.to_integer/1)
+  defp handleFile({:ok, data}) do
+    result =
+      data
+      |> String.split(" ")
+      |> Enum.map(&evalueteNumber/1)
+
+    {:ok, result}
   end
 
-  def handleFile({:error , cause}) do
-    "Error on reading file, #{cause}"
+  defp handleFile({:error, cause}) do
+    {:error, "Error on reading file, #{cause}"}
+  end
+
+  defp evalueteNumber(elem) do
+    elem
+    |> String.to_integer()
+    |> handleFizzOrBuzz()
+  end
+
+  defp handleFizzOrBuzz(n) when rem(n, 3) == 0 and rem(n, 5) == 0 do
+    :fizzBuzz
+  end
+
+  defp handleFizzOrBuzz(n) when rem(n, 3) == 0 do
+    :fizz
+  end
+
+  defp handleFizzOrBuzz(n) when rem(n, 5) == 0 do
+    :buzz
+  end
+
+  defp handleFizzOrBuzz(n) do
+    n
   end
 end
